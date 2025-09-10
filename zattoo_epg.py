@@ -308,13 +308,13 @@ class ZattooEPG:
             request_time = time.time() - request_start
             
             if response.status_code != 200:
-                print(f"\n  ERROR: HTTP {response.status_code} for batch request (took {request_time:.2f}s)", end="", flush=True)
+                print(f"\n  HTTP {response.status_code} for batch request (took {request_time:.2f}s)", end="", flush=True)
                 return {}
             
             data = response.json()
             
             if not data.get('success'):
-                print(f"\n  ERROR: API returned success=false for batch request", end="", flush=True)
+                print(f"\n  API returned success=false for batch request", end="", flush=True)
                 return {}
             
             # Extract program details - programs are directly in the response
@@ -323,10 +323,10 @@ class ZattooEPG:
             return programs
             
         except requests.exceptions.Timeout:
-            print(f"\n  ERROR: Timeout for batch request", end="", flush=True)
+            print(f"\n  Timeout for batch request", end="", flush=True)
             return {}
         except Exception as e:
-            print(f"\n  ERROR: Exception for batch request: {str(e)}", end="", flush=True)
+            print(f"\n  Exception for batch request: {str(e)}", end="", flush=True)
             return {}
 
     def get_program_details(self, program_id: str) -> Optional[Dict[str, Any]]:
@@ -656,11 +656,11 @@ def load_config(config_file: str = "config.json") -> Dict[str, str]:
             config = json.load(f)
         return config
     except FileNotFoundError:
-        print(f"ERROR: Configuration file '{config_file}' not found!")
+        print(f"Configuration file '{config_file}' not found!")
         print("Please create a config.json file with your email and password.")
         sys.exit(1)
     except json.JSONDecodeError as e:
-        print(f"ERROR: Invalid JSON in configuration file: {e}")
+        print(f"Invalid JSON in configuration file: {e}")
         sys.exit(1)
 
 
@@ -677,7 +677,7 @@ def send_xml_to_tvheadend(xml_data: str, socket_path: str = "/var/lib/tvheadend/
     try:
         # Check if socket exists
         if not os.path.exists(socket_path):
-            print(f"ERROR: TVHeadend socket not found at {socket_path}")
+            print(f"TVHeadend socket not found at {socket_path}")
             print("Make sure TVHeadend is running and XMLTV grabber is enabled.")
             return False
         
@@ -695,11 +695,11 @@ def send_xml_to_tvheadend(xml_data: str, socket_path: str = "/var/lib/tvheadend/
         return True
         
     except socket.error as e:
-        print(f"ERROR: Socket error: {e}")
+        print(f"Socket error: {e}")
         print("Make sure TVHeadend is running and XMLTV grabber is configured.")
         return False
     except Exception as e:
-        print(f"ERROR: Failed to send to TVHeadend: {e}")
+        print(f"Failed to send to TVHeadend: {e}")
         return False
 
 
@@ -716,13 +716,13 @@ def send_to_tvheadend(xml_file: str, socket_path: str = "/var/lib/tvheadend/epgg
     try:
         # Check if socket exists
         if not os.path.exists(socket_path):
-            print(f"ERROR: TVHeadend socket not found at {socket_path}")
+            print(f"TVHeadend socket not found at {socket_path}")
             print("Make sure TVHeadend is running and XMLTV grabber is enabled.")
             return False
         
         # Check if XML file exists
         if not os.path.exists(xml_file):
-            print(f"ERROR: XML file not found: {xml_file}")
+            print(f"XML file not found: {xml_file}")
             return False
         
         print(f"Sending {xml_file} to TVHeadend via {socket_path}...")
@@ -741,11 +741,11 @@ def send_to_tvheadend(xml_file: str, socket_path: str = "/var/lib/tvheadend/epgg
         return True
         
     except socket.error as e:
-        print(f"ERROR: Socket error: {e}")
+        print(f"Socket error: {e}")
         print("Make sure TVHeadend is running and XMLTV grabber is configured.")
         return False
     except Exception as e:
-        print(f"ERROR: Failed to send to TVHeadend: {e}")
+        print(f"Failed to send to TVHeadend: {e}")
         return False
 
 
@@ -787,17 +787,17 @@ def get_credentials_from_config(config_file: str = "config.json") -> tuple:
     password = config.get('password', '')
     
     if not email:
-        print("ERROR: 'email' not found or empty in configuration file!")
+        print("'email' not found or empty in configuration file!")
         sys.exit(1)
     
     if not password:
-        print("ERROR: 'password' not found or empty in configuration file!")
+        print("'password' not found or empty in configuration file!")
         sys.exit(1)
     
     # Validate email format
     email_pattern = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
     if not re.match(email_pattern, email):
-        print("ERROR: Invalid email format in configuration file!")
+        print("Invalid email format in configuration file!")
         sys.exit(1)
     
     return email, password
@@ -816,13 +816,13 @@ def get_credentials() -> tuple:
     # Validate email format
     email_pattern = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
     if not re.match(email_pattern, username):
-        print("ERROR: Invalid email format!")
+        print("Invalid email format!")
         sys.exit(1)
     
     password = getpass.getpass("Password: ")
     
     if not password:
-        print("ERROR: Password cannot be empty!")
+        print("Password cannot be empty!")
         sys.exit(1)
     
     return username, password
@@ -864,10 +864,10 @@ def main():
     try:
         response = requests.get("https://zattoo.com/de", timeout=10)
         if response.status_code != 200:
-            print("ERROR: Zattoo service is not available!")
+            print("Zattoo service is not available!")
             sys.exit(1)
     except requests.RequestException:
-        print("ERROR: Cannot connect to Zattoo service!")
+        print("Cannot connect to Zattoo service!")
         sys.exit(1)
     
     # Get credentials
@@ -884,19 +884,19 @@ def main():
     
     # Get session token
     if not epg.get_session_token():
-        print("ERROR: Failed to get session token!")
+        print("Failed to get session token!")
         sys.exit(1)
     
     # Login
     if not epg.login(username, password):
-        print("ERROR: Login failed! Please check your credentials.")
+        print("Login failed! Please check your credentials.")
         sys.exit(1)
     
     print()
     
     # Get channels
     if not epg.get_channels():
-        print("ERROR: Failed to get channel list!")
+        print("Failed to get channel list!")
         sys.exit(1)
     
     print()
@@ -904,15 +904,15 @@ def main():
     # Download EPG data
     download_start = time.time() if args.debug else 0
     if args.debug:
-        print("DEBUG: Starting EPG data download...")
+        print("Starting EPG data download...")
     
     if not epg.download_epg_data(days=args.days):
-        print("ERROR: Failed to download EPG data!")
+        print("Failed to download EPG data!")
         sys.exit(1)
     
     if args.debug:
         download_time = time.time() - download_start
-        print(f"DEBUG: EPG download completed in {download_time:.1f}s")
+        print(f"EPG download completed in {download_time:.1f}s")
     
     print()
     
@@ -920,47 +920,47 @@ def main():
     if not args.no_details:
         enhance_start = time.time() if args.debug else 0
         if args.debug:
-            print("DEBUG: Starting EPG enhancement...")
+            print("Starting EPG enhancement...")
         
         epg.enhance_epg_data()
         
         if args.debug:
             enhance_time = time.time() - enhance_start
-            print(f"DEBUG: EPG enhancement completed in {enhance_time:.1f}s")
+            print(f"EPG enhancement completed in {enhance_time:.1f}s")
         
         print()
     
     # Generate XMLTV or send directly to TVHeadend
     xmltv_start = time.time() if args.debug else 0
     if args.debug:
-        print("DEBUG: Starting XMLTV generation...")
+        print("Starting XMLTV generation...")
     
     if args.tvheadend_only:
         # Send directly to TVHeadend without saving to file
         xml_data = epg.generate_xmltv(filename=None, return_data=True)
         if not xml_data:
-            print("ERROR: Failed to generate XMLTV data!")
+            print("Failed to generate XMLTV data!")
             sys.exit(1)
         
         if args.debug:
             xmltv_time = time.time() - xmltv_start
-            print(f"DEBUG: XMLTV generation completed in {xmltv_time:.1f}s")
+            print(f"XMLTV generation completed in {xmltv_time:.1f}s")
         
         print()
         if isinstance(xml_data, str) and send_xml_to_tvheadend(xml_data, args.tvheadend_socket):
-            print("SUCCESS: EPG data sent directly to TVHeadend.")
+            print("EPG data sent directly to TVHeadend.")
         else:
             print("Failed to send EPG data to TVHeadend.")
             sys.exit(1)
     else:
         # Generate file normally
         if not epg.generate_xmltv(filename=args.output):
-            print("ERROR: Failed to generate XMLTV file!")
+            print("Failed to generate XMLTV file!")
             sys.exit(1)
         
         if args.debug:
             xmltv_time = time.time() - xmltv_start
-            print(f"DEBUG: XMLTV generation completed in {xmltv_time:.1f}s")
+            print(f"XMLTV generation completed in {xmltv_time:.1f}s")
         
         print()
         
@@ -968,7 +968,7 @@ def main():
         if args.tvheadend:
             print()
             if send_to_tvheadend(args.output, args.tvheadend_socket):
-                print("SUCCESS: EPG data sent to TVHeadend.")
+                print("EPG data sent to TVHeadend successfully.")
             else:
                 print("Failed to send EPG data to TVHeadend.")
     
