@@ -66,13 +66,16 @@ python zattoo_epg.py
 The program loads credentials from the `config.json` file and downloads 7 days of EPG data for Germany.
 
 # Use interactive login instead of configuration file
-python zattoo_epg.py --interactive
+```python zattoo_epg.py --interactive
+```
 
 # Send EPG data directly to TVHeadend
-python zattoo_epg.py --tvheadend-only
+```python zattoo_epg.py --tvheadend-only
+```
 
 # Custom TVHeadend socket path
-python zattoo_epg.py --tvheadend --tvheadend-socket /path/to/tvheadend/xmltv.sock
+```python zattoo_epg.py --tvheadend --tvheadend-socket /path/to/tvheadend/xmltv.sock
+```
 
 ### Advanced Options
 
