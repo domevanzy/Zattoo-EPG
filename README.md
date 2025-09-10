@@ -55,8 +55,6 @@ cp config.example.json config.json
 }
 ```
 
-**Important**: The `config.json` file is already included in `.gitignore` to prevent your credentials from being accidentally committed to a Git repository.
-
 ## Usage
 
 ### Basic Usage (with configuration file)
@@ -71,7 +69,7 @@ The program loads credentials from the `config.json` file and downloads 7 days o
 python zattoo_epg.py --interactive
 
 # Send EPG data directly to TVHeadend
-python zattoo_epg.py --tvheadend
+python zattoo_epg.py --tvheadend-only
 
 # Custom TVHeadend socket path
 python zattoo_epg.py --tvheadend --tvheadend-socket /path/to/tvheadend/xmltv.sock
@@ -133,22 +131,12 @@ The program creates an XMLTV file with the following information:
 - **Age Rating**: FSK rating
 - **Images**: Program posters/images
 
-## API Interface
-
-The program uses the same API endpoints as the original easyEPG project:
-
-1. **Session Initialization**: `https://zattoo.com/token.json`
-2. **Login**: `https://zattoo.com/zapi/v2/account/login`
-3. **Channel List**: `https://zattoo.com/zapi/v2/cached/channels/{power_guide_hash}`
-4. **EPG Data**: `https://zattoo.com/zapi/v2/cached/program/power_guide/{power_guide_hash}`
-5. **Program Details**: `https://zattoo.com/zapi/v2/cached/program/power_details/{power_guide_hash}`
-
 ## Example Output
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tv SYSTEM "xmltv.dtd">
-<tv source-info-url="https://zattoo.com/" source-data-url="https://zattoo.com/" generator-info-name="Zattoo EPG Grabber Python" generator-info-url="https://github.com/sunsettrack4/easyepg">
+<tv source-info-url="https://zattoo.com/" source-data-url="https://zattoo.com/" generator-info-name="Zattoo EPG Grabber Python">
   <channel id="cid://tx.zattoo.com/119">
     <display-name lang="de">Das Erste HD</display-name>
     <icon src="https://images.zattic.com/cms/..." />
@@ -258,24 +246,6 @@ The program outputs detailed progress information:
 - Number of loaded channels
 - Download progress
 - Number of processed programs
-
-## Comparison to Original
-
-This Python program provides the same functionality as the original Bash/Perl script:
-
-### Similarities
-- ✅ Same API endpoints
-- ✅ Same authentication
-- ✅ XMLTV output format
-- ✅ Support for DE/CH
-- ✅ Program details and metadata
-
-### Improvements
-- ✅ More user-friendly console interface
-- ✅ Better error handling
-- ✅ Structured, maintainable code
-- ✅ No external dependencies (except Python packages)
-- ✅ Cross-platform (Windows/Linux/macOS)
 
 ## License
 
