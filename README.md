@@ -1,6 +1,6 @@
 # Zattoo EPG Grabber
 
-A Python program that downloads EPG data from Zattoo and saves it as an XMLTV file. This is a Python implementation of the original easyEPG Zattoo grabber.
+A Python program that downloads EPG data from Zattoo and saves it as an XMLTV file. This is a Python implementation of the [easyEPG project](https://github.com/sunsettrack4/easyepg).
 
 ## Features
 
@@ -259,8 +259,7 @@ This program is licensed under the GNU General Public License v3.0, just like th
 
 ## Contributors
 
-Based on the original easyEPG project by:
-- Jan-Luca Neumann (sunsettrack4)
-- DeBaschdi
+Based on the original [easyEPG project](https://github.com/sunsettrack4/easyepg) by:
+- [Jan-Luca Neumann (sunsettrack4)](https://github.com/sunsettrack4)
 
 Python implementation developed as an equivalent alternative to the original Bash/Perl script.
